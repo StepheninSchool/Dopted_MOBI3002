@@ -5,14 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,13 +34,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun MainApp() {
     var shouldShowOnboarding by remember { mutableStateOf(true) }
-    var selectedScreen by remember { mutableStateOf("Home") }
+    var selectedScreen by remember { mutableStateOf("Favorite") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            if (!shouldShowOnboarding) {
+                TopNavBar(
+                    title = selectedScreen,
+                    onNavigateToOnboarding = { shouldShowOnboarding = true } // Navigate to onboarding
+                )
+            }
+        },
         bottomBar = {
             if (!shouldShowOnboarding) {
                 BottomNavBar(
@@ -62,12 +67,29 @@ fun MainApp() {
                 OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
             } else {
                 when (selectedScreen) {
-                    "Home" -> HomeScreen()
-                    "Profile" -> ProfileScreen()
+                    "Favorite" -> HomeScreen()
+                    "Pet of the Day" -> PetOfTheDayScreen()
                 }
             }
         }
     }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopNavBar(
+    title: String,
+    onNavigateToOnboarding: () -> Unit
+) {
+    TopAppBar(
+        title = { Text(title) },
+        navigationIcon = {
+            IconButton(onClick = onNavigateToOnboarding) {
+                Icon(Icons.Default.Home, contentDescription = "Back to Onboarding")
+            }
+        }
+    )
 }
 
 @Composable
@@ -79,12 +101,12 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Home Screen", style = MaterialTheme.typography.headlineMedium)
+        Text(text = "Favorite Screen", style = MaterialTheme.typography.headlineMedium)
     }
 }
 
 @Composable
-fun ProfileScreen() {
+fun PetOfTheDayScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -92,7 +114,7 @@ fun ProfileScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Profile Screen", style = MaterialTheme.typography.headlineMedium)
+        Text(text = "Pet of the Day Screen", style = MaterialTheme.typography.headlineMedium)
     }
 }
 
@@ -101,15 +123,18 @@ fun BottomNavBar(
     selectedScreen: String,
     onScreenSelected: (String) -> Unit
 ) {
-    val items = listOf("Home", "Profile")
+    val items = listOf("Favorite", "Pet of the Day")
 
     NavigationBar {
         items.forEach { item ->
             NavigationBarItem(
                 icon = {
                     when (item) {
-                        "Home" -> Icon(Icons.Default.Home, contentDescription = "Home")
-                        "Profile" -> Icon(Icons.Default.Person, contentDescription = "Profile")
+                        "Pet of the Day" -> Icon(
+                            painter = painterResource(id = R.drawable.baseline_circle_notifications_24),
+                            contentDescription = "Pet of the Day"
+                        )
+                        "Favorite" -> Icon(Icons.Default.FavoriteBorder, contentDescription = "Favorite")
                     }
                 },
                 label = { Text(item) },
