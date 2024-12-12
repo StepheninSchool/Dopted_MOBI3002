@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation("androidx.navigation:navigation-compose:2.8.5") // Add this line for Navigation
+    implementation(libs.androidx.navigation.compose) // Add this line for Navigation
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -58,14 +58,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // Jetpack Compose dependencies
-    implementation ("androidx.compose.ui:ui:1.5.0")
-    implementation ("androidx.compose.material3:material3:1.1.0")
-    implementation ("androidx.compose.runtime:runtime:1.5.0")
-    implementation ("androidx.activity:activity-compose:1.7.2")
+    implementation (libs.androidx.ui.v150)
+    implementation (libs.material3)
+    implementation (libs.androidx.runtime)
+    implementation (libs.androidx.activity.compose.v172)
 
     // Foundation and layout dependencies
-    implementation ("androidx.compose.ui:ui:1.5.0")
+    implementation (libs.androidx.compose.ui.ui)
 
     // Coroutine support
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation (libs.kotlinx.coroutines.android)
 }
