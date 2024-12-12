@@ -41,7 +41,7 @@ fun SplashScreen(onSplashComplete: () -> Unit) {
                     modifier = Modifier.size(200.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text("Welcome to Dopted")
+                Text("Dopted!")
             }
         }
     }
