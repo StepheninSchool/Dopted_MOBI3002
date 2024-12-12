@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary Colors -->
+    <color name="primary">#FFB6C1</color> <!-- Light pink -->
+    <color name="on_primary">#FFFFFF</color> <!-- White -->
+
+    <!-- Secondary Colors -->
+    <color name="secondary">#000000</color> <!-- Black -->
+    <color name="on_secondary">#FFFFFF</color> <!-- White -->
+
+    <!-- Tertiary Colors -->
+    <color name="tertiary">#FFFFFF</color> <!-- White -->
+    <color name="on_tertiary">#000000</color> <!-- Black -->
+
+    <!-- Accent Colors -->
+    <color name="accent">#FF007F</color> <!-- Hot pink -->
+    <color name="on_accent">#FFFFFF</color> <!-- White -->
+
+    <!-- Background and Surface -->
+    <color name="background">#FFF8F9</color> <!-- Off-white -->
+    <color name="on_background">#000000</color> <!-- Black -->
+
+    <color name="surface">#FFFFFF</color> <!-- White -->
+    <color name="on_surface">#000000</color> <!-- Black -->
+
+    <!-- Error Colors -->
+    <color name="error">#B00020</color> <!-- Red -->
+    <color name="on_error">#FFFFFF</color> <!-- White -->
 </resources>
