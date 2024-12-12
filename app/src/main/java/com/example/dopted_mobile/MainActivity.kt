@@ -10,12 +10,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,8 +32,38 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Dopted_mobileTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+                MainApp()
+            }
+        }
+    }
+}
+
+@Composable
+fun MainApp() {
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+    var selectedScreen by remember { mutableStateOf("Home") }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            if (!shouldShowOnboarding) {
+                BottomNavBar(
+                    selectedScreen = selectedScreen,
+                    onScreenSelected = { selectedScreen = it }
+                )
+            }
+        }
+    ) { innerPadding ->
+        Surface(
+            modifier = Modifier.padding(innerPadding),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            if (shouldShowOnboarding) {
+                OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+            } else {
+                when (selectedScreen) {
+                    "Home" -> HomeScreen()
+                    "Profile" -> ProfileScreen()
                 }
             }
         }
@@ -43,47 +71,51 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
-
-    Surface(
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.background
+fun HomeScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (shouldShowOnboarding) {
-            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        } else {
-            Column(modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-                Greetings()
-                MyButton(onClick = { /* Handle click action */ })
-            }
-        }
+        Text(text = "Home Screen", style = MaterialTheme.typography.headlineMedium)
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    var expanded by remember { mutableStateOf(false) }
-    val extraPadding = if (expanded) 48.dp else 0.dp
-
-    Surface(
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+fun ProfileScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(modifier = Modifier.padding(24.dp)) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = extraPadding)
-            ) {
-                Text(text = "Hello ")
-                Text(text = name)
-            }
-            ElevatedButton(
-                onClick = { expanded = !expanded }
-            ) {
-                Text(if (expanded) "Show less" else "Show more")
-            }
+        Text(text = "Profile Screen", style = MaterialTheme.typography.headlineMedium)
+    }
+}
+
+@Composable
+fun BottomNavBar(
+    selectedScreen: String,
+    onScreenSelected: (String) -> Unit
+) {
+    val items = listOf("Home", "Profile")
+
+    NavigationBar {
+        items.forEach { item ->
+            NavigationBarItem(
+                icon = {
+                    when (item) {
+                        "Home" -> Icon(Icons.Default.Home, contentDescription = "Home")
+                        "Profile" -> Icon(Icons.Default.Person, contentDescription = "Profile")
+                    }
+                },
+                label = { Text(item) },
+                selected = selectedScreen == item,
+                onClick = { onScreenSelected(item) }
+            )
         }
     }
 }
@@ -113,45 +145,10 @@ fun OnboardingScreen(
     }
 }
 
-@Composable
-private fun Greetings(
-    modifier: Modifier = Modifier,
-    names: List<String> = listOf("World", "Compose")
-) {
-    Column(modifier = modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
-            Greeting(name = name)
-        }
-    }
-}
-
-@Composable
-fun MyButton(onClick: () -> Unit) {
-    Button(onClick = onClick) {
-        Text(text = "Click me")
-    }
-}
-
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun MainScreenPreview() {
+fun MainAppPreview() {
     Dopted_mobileTheme {
-        MainScreen()
-    }
-}
-
-@Preview(showBackground = true, widthDp = 320)
-@Composable
-fun GreetingsPreview() {
-    Dopted_mobileTheme {
-        Greetings()
-    }
-}
-
-@Preview
-@Composable
-fun OnboardingPreview() {
-    Dopted_mobileTheme {
-        OnboardingScreen(onContinueClicked = {})
+        MainApp()
     }
 }
